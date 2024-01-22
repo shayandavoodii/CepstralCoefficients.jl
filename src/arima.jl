@@ -1,6 +1,5 @@
 function fit_arima(series::AbstractVector, p::Int)
-  order = (p, 0)
-  model = fit(ARMA{order...}, series)
+  model = fit(ARMA{p, 0}, series)
   return model.meanspec.coefs[2:end]
 end
 
