@@ -2,12 +2,15 @@ module CepstralClustering
 
 using ARCHModels
 using Statistics
+using Clustering
+using Distances
 
 include("arima.jl")
 include("cepstral.jl")
 include("normalizer.jl")
+include("clustering.jl")
 
-export cc
+export cc, clustering
 
 """
     cc(tseries::AbstractMatrix, p::Int, n::Int)
@@ -29,8 +32,8 @@ asset and each column representing a cepstral coefficient.
 """
 function cc(
   tseries::AbstractMatrix,
-  p::Int,
-  n::Int;
+  p::Integer,
+  n::Integer,
   normalize::Bool=false
 )
   tseries  = permutedims(tseries)
