@@ -33,10 +33,10 @@ function cc(
   n::Int;
   normalize::Bool=false
 )
-  tseries = permutedims(tseries)
-  series = copy(tseries)
+  tseries  = permutedims(tseries)
+  series   = copy(tseries)
   n_assets = size(series, 2)
-  cc_mat = similar(series, n, n_assets)
+  cc_mat   = similar(series, n, n_assets)
   normalize && normalizer!(series)
   α = fit_arima(series, p)
   for asset ∈ 1:n_assets
