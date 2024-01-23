@@ -1,4 +1,4 @@
-# TimeSeries Cepstral Clustering
+# Time Series Cepstral Clustering
 
 This repo contains the Julia implementation of a study entitled "Distance Measures for Effective Clustering of ARIMA Time-Series"[[1](https://doi.org/10.1109/ICDM.2001.989529)]. The research proposes a distinguished approach to classify time series regarding their inner patterns. The authors used the Cepstral Analysis concept to find the patterns underneath the time series.
 
@@ -51,7 +51,45 @@ cepscoefs = cc(prices, p, n)
 #  -0.257968  -0.286627  -0.482991  -0.557164  -0.184029  -0.241863  -0.3434    -0.236681  -0.341143  -0.359296
 ```
 
-The result is a `n×m` matrix, where `n` is the number of cepstral coefficients and `m` is the number of time series.
+The result is a `n×m` matrix, where `n` is the number of cepstral coefficients and `m` is the number of time series. The next step is to perform clustering on the calculated cepstral coefficients.
+
+### Clustering
+
+In this regard, one can use the `clustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
+
+```julia
+k = 4
+clusters = clustering(cepscoefs, k)
+# 2-element Vector{Vector{Int64}}:
+#  [1, 3, 5, 7, 9]
+#  [2, 4, 6, 8, 10]
+```
+
+The result indicates that the 1st, 3rd, 5th, 7th, and 9th time series are in the first cluster and the rest are in the second cluster. In other words, the first cluster contains "MSFT", "GOOG", "META", "NVDA", and "CSCO" and the second cluster contains "AAPL", "AMZN", "FB", "TSLA", and "INTC". Note that, the result may vary each time due to the random nature of the PAM algorithm.
+
+### Plotting
+
+In order to probe the results, it is better to visualize it. In this subsection, the time series are plotted in two different colors tones each of which represents a cluster.
+
+```julia
+colortones = ["#E46262" "#2C8EF6" "#CD6969" "#408BDA" "#B57070" "#5387BF" "#9E7777" "#6784A3" "#877E7E" "#7A8188"]
+linestyle = [:solid :dash :solid :dash :solid :dash :solid :dash :solid :dash]
+plot(
+  prices',
+  label=permutedims(tickers),
+  title="Stock prices\nAnalysed data range: $(startdt) to $(enddt)",
+  xlabel="Date",
+  ylabel="Price",
+  legend=:outerright,
+  dpi=300,
+  color=colortones,
+  size=(1000, 400),
+  linestyle=linestyle,
+  bottom_margin=6mm,
+  left_margin=6mm,
+)
+```
+![img](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/assets/StockPrices.png)
 
 ## Reference
 
