@@ -3,12 +3,12 @@ function fit_arima(series::AbstractVector, p::Int)
   return model.meanspec.coefs[2:end]
 end
 
-function fit_arima(series::AbstractMatrix, order::Int)
-  order>0 || ArgumentError("Order must be positive") |> throw
-  n_assets, n_obs = size(series)
-  coefs = similar(series, n_assets, order)
+function fit_arima(series::AbstractMatrix, p::Int)
+  p>0 || ArgumentError("p must be positive") |> throw
+  n_obs, n_assets = size(series)
+  coefs = similar(series, p, n_assets)
   for asset ∈ 1:n_assets
-    coefs[asset, :] = fit_arima(series[asset, :], order)
+    coefs[:, asset] = fit_arima(series[:, asset], p)
   end
   return coefs
 end
