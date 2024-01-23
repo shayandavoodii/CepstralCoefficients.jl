@@ -1,10 +1,10 @@
 # TimeSeries Cepstral Clustering
 
-This repo contains the Julia implementation of a study, entitled "Distance Measures for Effective Clustering of ARIMA Time-Series"[[1](https://doi.org/10.1109/ICDM.2001.989529)]. The research proposes a approach regarding classifying several time series regarding their inner patterns. Authors used Cepstral Analysis in order to find the patterns underneath the time series.
+This repo contains the Julia implementation of a study entitled "Distance Measures for Effective Clustering of ARIMA Time-Series"[[1](https://doi.org/10.1109/ICDM.2001.989529)]. The research proposes a distinguished approach to classify time series regarding their inner patterns. The authors used the Cepstral Analysis concept to find the patterns underneath the time series.
 
 ## How to use?
 
-To use the implementation, you should follow the subsequent steps:
+To use the implementation, one should pursue the following steps:
 
 1. Clone the repository using:  
 
@@ -20,11 +20,11 @@ To use the implementation, you should follow the subsequent steps:
     using .CepstralClustering
     ```
 
-Afterward, you should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the main function of the implementation. The aforementioned function calculates `n` number of cepstral coefficients according to the given time series.
+Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the primary function of the implementation. The function above calculates the `n` number of cepstral coefficients according to the given time series.
 
 ## Example
 
-In terms of testing the implementation, a sequence of time series is required. In this case, I use the following assets: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. I calculate the first 5 cepstral coefficients to be calculated and compared. I use `p=3` as the lag of $AR$ process.
+A sequence of time series is required to test the implementation. In this case, the following assets are used: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. In this example, the first 5 cepstral coefficients are calculated. The lag of $AR$ process is set to be `3`.
 
 ### Fetch data
 
@@ -35,7 +35,7 @@ querry = [get_prices(ticker, startdt="2019-01-01", enddt="2020-01-01")["adjclose
 prices = stack(querry, dims=1);
 ```
 
-Afterward, I use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function to calculate the cepstral coefficients.
+Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function is employed to calculate the cepstral coefficients.
 
 ### Calculate cepstral coefficients
 
@@ -51,7 +51,7 @@ cepscoefs = cc(prices, p, n)
 #  -0.257968  -0.286627  -0.482991  -0.557164  -0.184029  -0.241863  -0.3434    -0.236681  -0.341143  -0.359296
 ```
 
-The result is a matrix of size `n×m`, where `n` is the number of cepstral coefficients and `m` is the number of time series.
+The result is a `n×m` matrix, where `n` is the number of cepstral coefficients and `m` is the number of time series.
 
 ## Reference
 
@@ -64,6 +64,7 @@ The result is a matrix of size `n×m`, where `n` is the number of cepstral coeff
   volume={},
   number={},
   pages={273-280},
-  doi={10.1109/ICDM.2001.989529}}
+  doi={10.1109/ICDM.2001.989529}
+}
 ```
 
