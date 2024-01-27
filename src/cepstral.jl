@@ -1,4 +1,10 @@
-function cepscoef(p::Int, α::AbstractVector, n::Int)
+abstract type CepstralCoeffModel end
+
+struct ARCepstral <: CepstralCoeffModel end
+
+struct RealCepstral <: CepstralCoeffModel end
+
+function cepscoef(::Type{ARCepstral}, α::AbstractVector, p::Integer, n::Int)
   n>0 || ArgumentError("n must be positive") |> throw
   c = similar(α, n)
   for n_ ∈ 1:n
@@ -19,4 +25,11 @@ function cepscoef(p::Int, α::AbstractVector, n::Int)
     end
   end
   return c
+end
+
+function cepscoef(::Type{RealCepstral}, series::AbstractVector, p::Integer, n::Int)
+  p≥n || ArgumentError("`p` must be equal to or greater than `n` when using `RealCepstral`. \
+  Passed $p and $n.") |> throw
+  res = series |> fft .|> abs .|> log |> ifft
+  return res[1:n]
 end
