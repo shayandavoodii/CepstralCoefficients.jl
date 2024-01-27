@@ -4,6 +4,7 @@ using ARCHModels
 using Statistics
 using Clustering
 using Distances
+using FFTW
 
 include("arima.jl")
 include("cepstral.jl")
@@ -11,6 +12,7 @@ include("normalizer.jl")
 include("clustering.jl")
 
 export cc, clustering
+export RealCepstral, ARCepstral
 
 """
     cc(tseries::AbstractMatrix, p::Int, n::Int)
@@ -18,8 +20,10 @@ export cc, clustering
 Calculate the cepstral coefficients of the AR(p) process for each asset in the series.
 
 # Arguments
+- `model::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
+  the `ARCepstral` and `RealCepstral` are supported.
 - `tseries::AbstractMatrix`: a matrix of time series observations, with each row representing \
-an asset and each column representing a time step.
+  an asset and each column representing a time step.
 - `p::Int`: the order of the AR(p) process.
 - `n::Int`: the number of cepstral coefficients to calculate.
 
@@ -27,25 +31,40 @@ an asset and each column representing a time step.
 - `normalize::Bool=false`: whether to normalize the series before fitting the AR(p) process.
 
 # Returns
-- `cc_mat::AbstractMatrix`: a matrix of cepstral coefficients, with each row representing an \
-asset and each column representing a cepstral coefficient.
+- `cc_mat::AbstractMatrix`: a n×m matrix of cepstral coefficients, with each row representing \
+a cepstral coefficient and each column representing an asset.
 """
 function cc(
+  model::Type{<:CepstralCoeffModel},
   tseries::AbstractMatrix,
   p::Integer,
-  n::Integer,
+  n::Integer;
   normalize::Bool=false
 )
   tseries  = permutedims(tseries)
-  series   = copy(tseries)
-  n_assets = size(series, 2)
-  cc_mat   = similar(series, n, n_assets)
-  normalize && normalizer!(series)
-  α = fit_arima(series, p)
+  n_assets = size(tseries, 2)
+  cc_mat   = similar(tseries, n, n_assets)
   for asset ∈ 1:n_assets
-    cc_mat[:, asset] = cepscoef(p, α[:, asset], n)
+    cc_mat[:, asset] = cc(model, tseries[:, asset], p, n, normalize=normalize)
   end
   return cc_mat
+end
+
+function cc(
+  model::Type{<:CepstralCoeffModel},
+  tseries::AbstractVector,
+  p::Integer,
+  n::Integer;
+  normalize::Bool=false
+)
+  series = tseries
+  if normalize
+    series = copy(tseries)
+    normalizer!(series)
+  end
+  α = fit_arima(series, p)
+  coefs = cepscoef(model, α, p, n)
+  return real.(coefs)
 end
 
 end #module
