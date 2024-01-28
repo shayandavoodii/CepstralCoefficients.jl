@@ -20,7 +20,12 @@ To use the implementation, one should pursue the following steps:
     using .CepstralClustering
     ```
 
-Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the primary function of the implementation. The function above calculates the `n` number of cepstral coefficients according to the given time series.
+Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the primary function of the implementation. The function above calculates the `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
+
+- Auto-Regressive Cepstral Coefficients
+- Real Cepstral Coefficients
+
+The former method can be employed by passing the `ARCepstral` type as the first argument to the `cc` function, and the latter can be utilized by passing the `RealCepstral` type instead.
 
 ## Example
 
@@ -42,7 +47,7 @@ Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clus
 ```julia
 n=5
 p=3
-cepscoefs = cc(prices, p, n)
+cepscoefs = cc(ARCepstral, prices, p, n)
 # 5×10 Matrix{Float64}:
 #  -0.895194  -0.960283  -0.987055  -1.0       -0.968447  -1.0       -0.992712  -1.0       -1.0       -0.964975
 #   0.438019   0.504086   0.623425   0.671433   0.475873   0.551948   0.563323   0.556987   0.577228   0.553053
@@ -90,6 +95,8 @@ plot(
 )
 ```
 ![img](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/assets/StockPrices.png)
+
+The results are not satisfactory, which is expected since the PAM clustering is inaccurate due to its random initialization. The random initialization may result in a nonoptimal solution. As seen in the figure above, the 'ABDE' and 'NVDA' series follow similar patterns but are in different clusters; this is surprising because the opposite was expected.
 
 ## Reference
 
