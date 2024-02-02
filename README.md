@@ -20,7 +20,7 @@ To use the implementation, one should pursue the following steps:
     using .CepstralClustering
     ```
 
-Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the primary function of the implementation. The function above calculates the `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
+Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
 
 - Auto-Regressive Cepstral Coefficients
 - Real Cepstral Coefficients
