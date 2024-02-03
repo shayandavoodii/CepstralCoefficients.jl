@@ -5,6 +5,7 @@ using Statistics
 using Clustering
 using Distances
 using FFTW
+using QuadGK
 
 include("arima.jl")
 include("cepstral.jl")
@@ -12,20 +13,26 @@ include("normalizer.jl")
 include("clustering.jl")
 
 export cc, clustering
-export RealCepstral, ARCepstral
+export RealCepstral, ARCepstral, ARMACepstral
 
 """
-    cc(tseries::AbstractMatrix, p::Int, n::Int)
+    cc(
+      model::CepstralCoeffModel,
+      tseries::AbstractMatrix,
+      n::Integer;
+      normalize::Bool=false
+    )
 
-Calculate the cepstral coefficients of the AR(p) process for each asset in the series.
+Calculate the cepstral coefficients of the AR(p), or ARMA(p, q) processes or Real cepstral \
+coefficients for each asset according to the given time series. See [`ARCepstral`](@ref), \
+[`ARMACepstral`](@ref), and [`RealCepstral`](@ref) for more information.
 
 # Arguments
 - `model::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
-  the `ARCepstral` and `RealCepstral` are supported.
+  the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) are supported.
 - `tseries::AbstractMatrix`: a matrix of time series observations, with each row representing \
   an asset and each column representing a time step.
-- `p::Int`: the order of the AR(p) process.
-- `n::Int`: the number of cepstral coefficients to calculate.
+- `n::Integer`: the number of cepstral coefficients to calculate.
 
 ## Keyword Arguments
 - `normalize::Bool=false`: whether to normalize the series before fitting the AR(p) process.
@@ -35,9 +42,8 @@ Calculate the cepstral coefficients of the AR(p) process for each asset in the s
 a cepstral coefficient and each column representing an asset.
 """
 function cc(
-  model::Type{<:CepstralCoeffModel},
+  model::CepstralCoeffModel,
   tseries::AbstractMatrix,
-  p::Integer,
   n::Integer;
   normalize::Bool=false
 )
@@ -45,15 +51,14 @@ function cc(
   n_assets = size(tseries, 2)
   cc_mat   = similar(tseries, n, n_assets)
   for asset ∈ 1:n_assets
-    cc_mat[:, asset] = cc(model, tseries[:, asset], p, n, normalize=normalize)
+    cc_mat[:, asset] = cc(model, tseries[:, asset], n, normalize=normalize)
   end
   return cc_mat
 end
 
 function cc(
-  model::Type{<:CepstralCoeffModel},
+  model::CepstralCoeffModel,
   tseries::AbstractVector,
-  p::Integer,
   n::Integer;
   normalize::Bool=false
 )
@@ -62,9 +67,8 @@ function cc(
     series = copy(tseries)
     normalizer!(series)
   end
-  α = fit_arima(series, p)
-  coefs = cepscoef(model, α, p, n)
-  return real.(coefs)
+  coefs = cepscoef(model, series, n)
+  return coefs
 end
 
 end #module
