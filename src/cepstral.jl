@@ -38,7 +38,7 @@ end
 
 function cepscoef(::RealCepstral, tseries::AbstractVector, n::Integer)
   res = tseries |> fft .|> abs .|> log |> ifft
-  return real.(res[1:n])
+  return res[1:n] .|> real
 end
 
 """
