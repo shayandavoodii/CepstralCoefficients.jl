@@ -40,7 +40,7 @@ querry = [get_prices(ticker, startdt="2019-01-01", enddt="2020-01-01")["adjclose
 prices = stack(querry, dims=1);
 ```
 
-Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L12-L46) function is employed to calculate the cepstral coefficients.
+Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/b586666d6764ac4e742cc07549c0247be30baa1b/src/CepstralClustering.jl#L18-L57) function is employed to calculate the cepstral coefficients.
 
 ### Calculate cepstral coefficients
 
