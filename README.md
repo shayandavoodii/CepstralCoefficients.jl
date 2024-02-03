@@ -47,7 +47,8 @@ Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clus
 ```julia
 n=5
 p=3
-cepscoefs = cc(ARCepstral, prices, p, n)
+model = ARCepstral(p)
+cepscoefs = cc(model, prices, n)
 # 5×10 Matrix{Float64}:
 #  -0.895194  -0.960283  -0.987055  -1.0       -0.968447  -1.0       -0.992712  -1.0       -1.0       -0.964975
 #   0.438019   0.504086   0.623425   0.671433   0.475873   0.551948   0.563323   0.556987   0.577228   0.553053
