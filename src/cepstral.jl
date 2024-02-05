@@ -11,15 +11,15 @@ struct ARMACepstral{S<:AbstractFloat, T<:Integer} <: CepstralCoeffModel
   order::Tuple{T, T}
 end
 
-function cepscoef(m::ARCepstral, tseries::AbstractVector, n::Integer)
+function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
   n>0 || ArgumentError("n must be positive") |> throw
-  α = fit_arima(tseries, m.p)
-  m.p == length(α) || ArgumentError("Length of coefficients must be equal to p") |> throw
+  α = fit_arima(tseries, method.p)
+  method.p == length(α) || ArgumentError("Length of coefficients must be equal to p") |> throw
   c = similar(α, n)
   for n_ ∈ 1:n
     if n_==1
       c[1] = -α[1]
-    elseif 1<n_≤m.p
+    elseif 1<n_≤method.p
       secondterm = 0.
       for m ∈ 1:n_-1
         secondterm += (1-m/n_)*α[m]*c[n_-m]
@@ -27,7 +27,7 @@ function cepscoef(m::ARCepstral, tseries::AbstractVector, n::Integer)
       c[n_] = -α[n_] - secondterm
     else
       res = 0.
-      for m ∈ 1:m.p
+      for m ∈ 1:method.p
         res += (1-m/n_)*α[m]*c[n_-m]
       end
       c[n_] = -res
@@ -67,7 +67,7 @@ function cepscoef(
   tseries::AbstractVector,
   n::Integer
 )
-  p, q = first(m.order), last(m.order)
+  p, q = m.order
   α = fit_arima(tseries, p, q)
   ψarr = similar(α, n)
   for k ∈ 1:n
@@ -98,6 +98,6 @@ function ψfunc(
   end
   numerator_ = 1 - numerator_
   denominator_ = 1 - denominator_
-  λxw = (a*abs(numerator_/denominator_) |> log) * cos(2π*k*freq)
-  return λxw
+  ψ = (a*abs(numerator_/denominator_) |> log) * cos(2π*k*freq)
+  return ψ
 end
