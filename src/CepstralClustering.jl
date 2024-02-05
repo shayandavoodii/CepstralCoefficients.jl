@@ -17,7 +17,7 @@ export RealCepstral, ARCepstral, ARMACepstral
 
 """
     cc(
-      model::CepstralCoeffModel,
+      method::CepstralCoeffModel,
       tseries::AbstractMatrix,
       n::Integer;
       normalize::Bool=false
@@ -28,8 +28,9 @@ coefficients for each asset according to the given time series. See [`ARCepstral
 [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) for more information.
 
 # Arguments
-- `model::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
-  the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) are supported.
+- `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
+  the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) methods \
+  are supported.
 - `tseries::AbstractMatrix`: a matrix of time series observations, with each row representing \
   an asset and each column representing a time step.
 - `n::Integer`: the number of cepstral coefficients to calculate.
@@ -42,7 +43,7 @@ coefficients for each asset according to the given time series. See [`ARCepstral
 a cepstral coefficient and each column representing an asset.
 """
 function cc(
-  model::CepstralCoeffModel,
+  method::CepstralCoeffModel,
   tseries::AbstractMatrix,
   n::Integer;
   normalize::Bool=false
@@ -51,13 +52,13 @@ function cc(
   n_assets = size(tseries, 2)
   cc_mat   = similar(tseries, n, n_assets)
   for asset ∈ 1:n_assets
-    cc_mat[:, asset] = cc(model, tseries[:, asset], n, normalize=normalize)
+    cc_mat[:, asset] = cc(method, tseries[:, asset], n, normalize=normalize)
   end
   return cc_mat
 end
 
 function cc(
-  model::CepstralCoeffModel,
+  method::CepstralCoeffModel,
   tseries::AbstractVector,
   n::Integer;
   normalize::Bool=false
@@ -67,7 +68,7 @@ function cc(
     series = copy(tseries)
     normalizer!(series)
   end
-  coefs = cepscoef(model, series, n)
+  coefs = cepscoef(method, series, n)
   return coefs
 end
 
