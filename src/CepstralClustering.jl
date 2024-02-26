@@ -34,6 +34,7 @@ Calculate the cepstral coefficients of the AR(p), or ARMA(p, q) processes or Rea
 coefficients for each asset according to the given time series. See [`ARCepstral`](@ref), \
 [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) for more information.
 
+=========================================================================================================================================
 # 1st Method
 ## Arguments
 - `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
@@ -49,6 +50,8 @@ coefficients for each asset according to the given time series. See [`ARCepstral
 ## Returns
 - `cc_mat::AbstractMatrix`: a n×m matrix of cepstral coefficients, with each row representing \
 a cepstral coefficient and each column representing an asset.
+
+=========================================================================================================================================
 
 # 2nd Method
 ## Arguments
