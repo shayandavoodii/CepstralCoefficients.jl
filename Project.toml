@@ -1,3 +1,6 @@
+name            = "CepstralClustering"
+authors         = ["Shayan Davoodi"]
+
 [deps]
 ARCHModels = "6d3278bc-c23a-5105-85e5-0d57d2bf684f"
 Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
