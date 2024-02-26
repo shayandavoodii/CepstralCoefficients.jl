@@ -6,17 +6,17 @@ This repo contains the Julia implementation of a study entitled "Distance Measur
 
 To use the implementation, one should pursue the following steps:
 
-1. Clone the repository using:  
-
-    ```raw
-    git clone https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering.git
-    ```
-
-2. Open a Julia session in the "TimeSeries-Cepstral-Clustering" directory and run the following commands:
+1. Install the package by running the following command in the Julia REPL:  
 
     ```julia
-    using Pkg; Pkg.activate(".")
-    include("src/CepstralClustering.jl")
+    using Pkg
+    Pkg.add("https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering.git")
+    ```
+
+2. Import the package using the following command in the Julia REPL:
+
+    ```julia
+    using CepstralClustering
     ```
 
 Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L18-L44) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
@@ -39,7 +39,7 @@ querry = [get_prices(ticker, startdt="2019-01-01", enddt="2020-01-01")["adjclose
 prices = stack(querry, dims=1);
 ```
 
-Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/b586666d6764ac4e742cc07549c0247be30baa1b/src/CepstralClustering.jl#L18-L57) function is employed to calculate the cepstral coefficients.
+Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/b586666d6764ac4e742cc07549c0247be30baa1b/src/CepstralClustering.jl#L12-L46) function is employed to calculate the cepstral coefficients.
 
 ### Calculate cepstral coefficients
 
