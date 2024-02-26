@@ -23,11 +23,19 @@ export RealCepstral, ARCepstral, ARMACepstral
       normalize::Bool=false
     )
 
+    cc(
+      method::CepstralCoeffModel,
+      tseries::AbstractVector,
+      n::Integer;
+      normalize::Bool=false
+    )
+
 Calculate the cepstral coefficients of the AR(p), or ARMA(p, q) processes or Real cepstral \
 coefficients for each asset according to the given time series. See [`ARCepstral`](@ref), \
 [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) for more information.
 
-# Arguments
+# 1st Method
+## Arguments
 - `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
   the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) methods \
   are supported.
@@ -35,12 +43,26 @@ coefficients for each asset according to the given time series. See [`ARCepstral
   an asset and each column representing a time step.
 - `n::Integer`: the number of cepstral coefficients to calculate.
 
-## Keyword Arguments
+### Keyword Arguments
 - `normalize::Bool=false`: whether to normalize the series before fitting the AR(p) process.
 
-# Returns
+## Returns
 - `cc_mat::AbstractMatrix`: a n×m matrix of cepstral coefficients, with each row representing \
 a cepstral coefficient and each column representing an asset.
+
+# 2nd Method
+## Arguments
+- `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
+  the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) methods \
+  are supported.
+- `tseries::AbstractVector`: a vector of time series observations.
+- `n::Integer`: the number of cepstral coefficients to calculate.
+
+### Keyword Arguments
+- `normalize::Bool=false`: whether to normalize the series before fitting the AR(p) process.
+
+## Returns
+- `cc_vec::AbstractVector`: a vector of cepstral coefficients.
 """
 function cc(
   method::CepstralCoeffModel,
