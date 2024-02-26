@@ -1,5 +1,6 @@
 name            = "CepstralClustering"
 authors         = ["Shayan Davoodi"]
+uuid            = "25143114-1fb7-4f81-a698-748152e83e47"
 
 [deps]
 ARCHModels = "6d3278bc-c23a-5105-85e5-0d57d2bf684f"
