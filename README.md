@@ -10,7 +10,7 @@ To use the implementation, one should pursue the following steps:
 
     ```julia
     using Pkg
-    Pkg.add("https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering.git")
+    Pkg.add(url="https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering.git")
     ```
 
 2. Import the package using the following command in the Julia REPL:
