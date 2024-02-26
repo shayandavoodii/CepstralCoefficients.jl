@@ -6,9 +6,9 @@ end
 
 struct RealCepstral <: CepstralCoeffModel end
 
-struct ARMACepstral{S<:AbstractFloat, T<:Integer} <: CepstralCoeffModel
+struct ARMACepstral{S, T} <: CepstralCoeffModel where {S<:AbstractFloat, T<:Integer}
   σ²::S
-  order::Tuple{T, T}
+  order::NTuple{2, T}
 end
 
 function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
