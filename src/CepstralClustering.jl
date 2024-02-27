@@ -37,7 +37,7 @@ coefficients for each asset according to the given time series. See [`ARCepstral
 =========================================================================================================================================
 # 1st Method
 ## Arguments
-- `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
+- `method::CepstralCoeffModel`: A subtype of `CepstralCoeffModel`. Currently, \
   the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) methods \
   are supported.
 - `tseries::AbstractMatrix`: a matrix of time series observations, with each row representing \
@@ -55,7 +55,7 @@ a cepstral coefficient and each column representing an asset.
 
 # 2nd Method
 ## Arguments
-- `method::Type{<:CepstralCoeffModel}`: A subtype of `CepstralCoeffModel`. Currently, \
+- `method::CepstralCoeffModel`: A subtype of `CepstralCoeffModel`. Currently, \
   the [`ARCepstral`](@ref), [`ARMACepstral`](@ref), and [`RealCepstral`](@ref) methods \
   are supported.
 - `tseries::AbstractVector`: a vector of time series observations.
