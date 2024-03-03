@@ -16,7 +16,7 @@ To use the implementation, one should pursue the following steps:
 2. Import the package using the following command in the Julia REPL:
 
     ```julia
-    using CepstralClustering
+    using CepstralCoefficients
     ```
 
 Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L18-L44) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
@@ -63,8 +63,9 @@ The result is a `n×m` matrix, where `n` is the number of cepstral coefficients 
 In this regard, one can use the `clustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
 
 ```julia
+using Clustering
 k = 4
-clusters = clustering(cepscoefs, k)
+clusters = cepsclustering(cepscoefs, k)
 # 2-element Vector{Vector{Int64}}:
 #  [1, 3, 5, 7, 9]
 #  [2, 4, 6, 8, 10]
