@@ -68,7 +68,7 @@ function cepscoef(
   n::Integer
 )
   p, q = m.order
-  α = fit_arima(tseries, p, q)
+  α    = fit_arima(tseries, p, q)
   ψarr = similar(α, n)
   for k ∈ 1:n
     ψarr[k] = quadgk(ω->ψfunc(α, m.σ², ω, p, q, k-1), 0, 1) |> first
@@ -85,8 +85,8 @@ function ψfunc(
   k::Integer
 )
   p+q == length(coefs) || ArgumentError("Length of coefficients must be equal to p + q") |> throw
-  a = σ²/2π
-  numerator_ = 0.
+  a            = σ²/2π
+  numerator_   = 0.
   denominator_ = 0.
   for h ∈ 1:p
     x = h * freq
@@ -96,7 +96,7 @@ function ψfunc(
     x = h * freq
     denominator_ += coefs[p + h] * cis(x)
   end
-  numerator_ = 1 - numerator_
+  numerator_   = 1 - numerator_
   denominator_ = 1 - denominator_
   ψ = (a*abs(numerator_/denominator_) |> log) * cos(2π*k*freq)
   return ψ
