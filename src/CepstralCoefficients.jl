@@ -1,18 +1,15 @@
-module CepstralClustering
+module CepstralCoefficients
 
 using ARCHModels
-using Statistics
-using Clustering
-using Distances
 using FFTW
 using QuadGK
 
 include("arima.jl")
 include("cepstral.jl")
-include("normalizer.jl")
+include("tools.jl")
 include("clustering.jl")
 
-export cc, clustering
+export cc, cepsclustering
 export RealCepstral, ARCepstral, ARMACepstral
 
 """
