@@ -1,4 +1,4 @@
-# Time Series Cepstral Clustering
+# CepstralCoefficients.jl
 
 This repo contains the Julia implementation of a study entitled "Distance Measures for Effective Clustering of ARIMA Time-Series"[[1](https://doi.org/10.1109/ICDM.2001.989529)]. The research proposes a distinguished approach to classify time series regarding their inner patterns. The authors used the Cepstral Analysis concept to find the patterns underneath the time series.
 
@@ -10,7 +10,7 @@ To use the implementation, one should pursue the following steps:
 
     ```julia
     using Pkg
-    Pkg.add(url="https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering.git")
+    Pkg.add(url="https://github.com/shayandavoodii/CepstralCoefficients.jl.git")
     ```
 
 2. Import the package using the following command in the Julia REPL:
