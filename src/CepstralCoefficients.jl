@@ -85,6 +85,8 @@ function cc(
   n::Integer;
   normalize::Bool=false
 )
+  n>0 || ArgumentError("The number of cepstral coefficients `n` should be more than 0. $n is \
+  passed.") |> throw
   series = tseries
   if normalize
     series = normalizer(tseries)
