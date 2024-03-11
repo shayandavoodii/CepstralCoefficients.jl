@@ -1,20 +1,14 @@
 abstract type CepstralCoeffModel end
 
-struct ARCepstral{T} <: CepstralCoeffModel
+struct ARCepstral{T<:Integer} <: CepstralCoeffModel
   p::T
-  function ARCepstral(p::T) where T<:Integer
-    new{T}(p)
-  end
 end
 
 struct RealCepstral <: CepstralCoeffModel end
 
-struct ARMACepstral{S, T} <: CepstralCoeffModel
+struct ARMACepstral{S<:AbstractFloat, T<:Integer} <: CepstralCoeffModel
   σ²::S
   order::NTuple{2, T}
-  function ARMACepstral(σ²::S, order::NTuple{2, T}) where {S<:AbstractFloat, T<:Integer}
-    new{S, T}(σ², order)
-  end
 end
 
 function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
