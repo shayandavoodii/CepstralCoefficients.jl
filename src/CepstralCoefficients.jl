@@ -87,8 +87,7 @@ function cc(
 )
   series = tseries
   if normalize
-    series = copy(tseries)
-    normalizer!(series)
+    series = normalizer(tseries)
   end
   coefs = cepscoef(method, series, n)
   return coefs
