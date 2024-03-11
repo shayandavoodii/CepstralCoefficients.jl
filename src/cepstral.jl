@@ -1,14 +1,20 @@
 abstract type CepstralCoeffModel end
 
-struct ARCepstral <: CepstralCoeffModel
-  p::Integer
+struct ARCepstral{T} <: CepstralCoeffModel
+  p::T
+  function ARCepstral(p::T) where T<:Integer
+    new{T}(p)
+  end
 end
 
 struct RealCepstral <: CepstralCoeffModel end
 
-struct ARMACepstral{S, T} <: CepstralCoeffModel where {S<:AbstractFloat, T<:Integer}
+struct ARMACepstral{S, T} <: CepstralCoeffModel
   σ²::S
   order::NTuple{2, T}
+  function ARMACepstral(σ²::S, order::NTuple{2, T}) where {S<:AbstractFloat, T<:Integer}
+    new{S, T}(σ², order)
+  end
 end
 
 function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
@@ -41,6 +47,20 @@ function cepscoef(::RealCepstral, tseries::AbstractVector, n::Integer)
   return res[1:n] .|> real
 end
 
+function cepscoef(
+  m::ARMACepstral,
+  tseries::AbstractVector,
+  n::Integer
+)
+  p, q = m.order
+  α    = fit_arima(tseries, p, q)
+  ψarr = similar(α, n)
+  for k ∈ 1:n
+    ψarr[k] = quadgk(ω->ψfunc(α, m.σ², ω, p, q, k-1), 0, 1) |> first
+  end
+  return ψarr
+end
+
 """
     ψfunc(
       coefs::AbstractArray,
@@ -62,28 +82,14 @@ Compute the first n cepstral coefficients for each asset and each time period
 - `ψarr::AbstractArray`: Array of cepstral coefficients. First index: coefficient, \
 second index: asset, third index: time window
 """
-function cepscoef(
-  m::ARMACepstral,
-  tseries::AbstractVector,
-  n::Integer
-)
-  p, q = m.order
-  α    = fit_arima(tseries, p, q)
-  ψarr = similar(α, n)
-  for k ∈ 1:n
-    ψarr[k] = quadgk(ω->ψfunc(α, m.σ², ω, p, q, k-1), 0, 1) |> first
-  end
-  return ψarr
-end
-
 function ψfunc(
   coefs::AbstractVector,
-  σ²::AbstractFloat,
-  freq::AbstractFloat,
-  p::Integer,
-  q::Integer,
-  k::Integer
-)
+  σ²::S,
+  freq::S,
+  p::T,
+  q::T,
+  k::T
+) where {S<:AbstractFloat, T<:Integer}
   p+q == length(coefs) || ArgumentError("Length of coefficients must be equal to p + q") |> throw
   a            = σ²/2π
   numerator_   = 0.
