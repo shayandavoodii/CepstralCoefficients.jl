@@ -12,7 +12,6 @@ struct ARMACepstral{S<:AbstractFloat, T<:Integer} <: CepstralCoeffModel
 end
 
 function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
-  n>0 || ArgumentError("n must be positive") |> throw
   α = fit_arima(tseries, method.p)
   method.p == length(α) || ArgumentError("Length of coefficients must be equal to p") |> throw
   c = similar(α, n)
