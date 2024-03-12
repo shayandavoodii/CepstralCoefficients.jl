@@ -1,5 +1,5 @@
 # CepstralCoefficients.jl
-
+[![CI](https://github.com/shayandavoodii/CepstralCoefficients.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/shayandavoodii/CepstralCoefficients.jl/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/shayandavoodii/CepstralCoefficients.jl/graph/badge.svg?token=A70LOIP6F9)](https://codecov.io/gh/shayandavoodii/CepstralCoefficients.jl)  
 This repo contains the Julia implementation of a study entitled "Distance Measures for Effective Clustering of ARIMA Time-Series"[[1](https://doi.org/10.1109/ICDM.2001.989529)]. The research proposes a distinguished approach to classify time series regarding their inner patterns. The authors used the Cepstral Analysis concept to find the patterns underneath the time series.
 
 ## How to use?
