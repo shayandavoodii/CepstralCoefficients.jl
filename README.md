@@ -8,16 +8,16 @@
 
 <ol>
   <li><a href="#Introduction">Introduction</a></li>
-  <li><a href="#How to use">How to use</a></li>
+  <li><a href="#How-to-use">How to use</a></li>
   <ul>
     <li><a href="#Example">Example</a></li>
     <ul>
-      <li><a href="#Fetch data">Fetch data</a></li>
-      <li><a href="#Calculate cepstral coefficients">Calculate cepstral coefficients</a></li>
+      <li><a href="#Fetch-data">Fetch data</a></li>
+      <li><a href="#Calculate-cepstral-coefficients">Calculate cepstral coefficients</a></li>
     </ul>
-    <li><a href="#Extra tools">Extra tools</a></li>
+    <li><a href="#Extra-tools">Extra tools</a></li>
     <ul>
-      <li><a href="#PAM Clustering">PAM Clustering</a></li>
+      <li><a href="#PAM-Clustering">PAM Clustering</a></li>
       <ul>
         <li><a href="#Plotting">Plotting</a></li>
       </ul>
