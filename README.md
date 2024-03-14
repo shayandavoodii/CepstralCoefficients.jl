@@ -4,7 +4,7 @@
 This package provides different methods of calculating cepstral coefficients. Three implemented methods are as follows:
 
 1. Cepstral coefficients based on Auto Regressive Moving Average (ARMA) coefficients
-2. Cepstral coefficients based on Auto Regressive (AR) coefficients
+2. Cepstral coefficients based on Auto-Regressive (AR) coefficients
 3. Real cepstral coefficients
 
 ---
@@ -29,19 +29,19 @@ where ${{\sigma ^2}}$ is the variance of ${{\varepsilon _t}}$. The logarithm of 
 {\lambda _x}(\omega ) = \log {f_x}(\omega ) = {{{\sigma ^2}} \over {2\pi }}\exp (2\sum\limits_{h - 1}^p {{\psi _h}\cos (h\omega )} )
 ```
 
-where $0 < \omega  < \pi $, and where ${\sigma ^2}$ and ${\psi _1},{\psi _2},...,{\psi _p}$ are unknown parameters. The following approximation of the log of the log spectral density function, namely, the spectrum of the log spectral density function, the cepstrum of ${X_t}$ is intruduced:
+where $0 < \omega  < \pi $, and where ${\sigma ^2}$ and ${\psi _1},{\psi _2},...,{\psi _p}$ are unknown parameters. The following approximation of the log of the log spectral density function, namely, the spectrum of the log spectral density function, the cepstrum of ${X_t}$ is introduced:
 
 ```math
 CP(\omega ) = \log {\lambda _x}(\omega ) = {\psi _0} + 2\sum\limits_{h - 1}^p {{\psi _k}\cos (2\pi h)}
 ```
 
-where ${\psi _0} = \int\limits_0^1 {\log {\lambda _x}(\omega )d} \omega $ is the logarithm of the variance of the white noise process ${{\varepsilon _t}}$. Under the absolute integrability on (0,1) of $\log {\lambda _x}(\omega )$, the Fourier coefficients of the expansion of $\log {\lambda _x}(\omega )$ are defined by:
+where ${\psi _0} = \int\limits_0^1 {\log {\lambda_x}(\omega )d} \omega$ is the logarithm of the variance of the white noise process ${{\varepsilon _t}}$. Under the absolute integrability on (0,1) of $\log {\lambda _x}(\omega )$, the Fourier coefficients of the expansion of $\log {\lambda _x}(\omega )$ are defined by:
 
 ```math
 {\psi _k} = \int\limits_0^1 {\log {\lambda _x}(\omega )\cos (2\pi k)d} \omega {\rm{    }}
 ```
 
-for $k = 0,1,2,...$ and are referred to as the cepstral coefficients. Due to the convergence in mean square of $\log {f_x}(\omega )$ with increasing $p$, only a small number of cepstral coefficients can describe the second order characteristics of a time series [[1](https://doi.org/10.1016/j.eswa.2020.113705)].
+for $k = 0,1,2,...$ and are referred to as the cepstral coefficients. Due to the convergence in mean square of $\log {f_x}(\omega )$ with increasing $p$, only a small number of cepstral coefficients can describe the second-order characteristics of a time series [[1](https://doi.org/10.1016/j.eswa.2020.113705)].
 
 ---
 
@@ -90,7 +90,7 @@ The former method can be employed by passing the `ARCepstral` type as the first 
 
 ## Example
 
-A sequence of time series is required to test the implementation. In this case, the following assets are used: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. In this example, the first 5 cepstral coefficients are calculated. The lag of $AR$ process is set to be `3`.
+A sequence of time series is required to test the implementation. In this case, the following assets are used: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. In this example, the first 5 cepstral coefficients are calculated. The lag of the $AR$ process is set to be `3`.
 
 ### Fetch data
 
