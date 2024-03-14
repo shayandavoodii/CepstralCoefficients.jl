@@ -1,6 +1,33 @@
 # CepstralCoefficients.jl
 
 [![CI](https://github.com/shayandavoodii/CepstralCoefficients.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/shayandavoodii/CepstralCoefficients.jl/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/shayandavoodii/CepstralCoefficients.jl/graph/badge.svg?token=A70LOIP6F9)](https://codecov.io/gh/shayandavoodii/CepstralCoefficients.jl)  
+
+## Table of contents
+
+<div id="top"></div>
+
+<ol>
+  <li><a href="#Introduction">Introduction</a></li>
+  <li><a href="#How to use">How to use</a></li>
+  <ul>
+    <li><a href="#Example">Example</a></li>
+    <ul>
+      <li><a href="#Fetch data">Fetch data</a></li>
+      <li><a href="#Calculate cepstral coefficients">Calculate cepstral coefficients</a></li>
+    </ul>
+    <li><a href="#Extra tools">Extra tools</a></li>
+    <ul>
+      <li><a href="#PAM Clustering">PAM Clustering</a></li>
+      <ul>
+        <li><a href="#Plotting">Plotting</a></li>
+      </ul>
+    </ul>
+  </ul>
+</ol>
+
+<!-- Introduction -->
+## Introduction
+
 This package provides different methods of calculating cepstral coefficients. Three implemented methods are as follows:
 
 1. Cepstral coefficients based on Auto Regressive Moving Average (ARMA) coefficients
@@ -64,7 +91,8 @@ The cepstral coefficients for an $AR(p)$ time–series can be derived from the a
 
 The (real) cepstrum is defined as the inverse Fourier transform of the (real) logarithm of the Fourier transform of the time series.
 
-## How to use?
+<!-- How to use -->
+## How to use
 
 To use the implementation, one should pursue the following steps:
 
@@ -83,10 +111,12 @@ To use the implementation, one should pursue the following steps:
 
 Afterward, one should use the [`cc`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/CepstralCoefficients.jl#L15-L96) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series.
 
+<!-- Example -->
 ### Example
 
 A sequence of time series is required to test the implementation. In this case, the following assets are used: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. In this example, the first 5 cepstral coefficients are calculated. The lag of the $AR$ process is set to be `3`.
 
+<!-- Fetch data -->
 #### Fetch data
 
 ```julia
@@ -98,6 +128,7 @@ prices = stack(querry, dims=1);
 
 Afterward, the [`cc`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/CepstralCoefficients.jl#L15-L96) function is employed to calculate the cepstral coefficients.
 
+<!-- Calculate cepstral coefficients -->
 #### Calculate cepstral coefficients
 
 The calculation method ([`ARMACepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L9-L12) or [`ARCepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L3-L5) or [`RealCepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L7)) should be passed as the first argument to the `cc` function, the time series should be passed as the second argument in order to calculate the cepstral coefficients of the passed time series, and the number of coefficients should be specificed as the third argument. For example, the following code calculates the first 5 cepstral coefficients of the given time series `prices` using the `ARCepstral(3)` method:
@@ -119,10 +150,12 @@ The result is a `n×m` matrix, where `n` is the number of cepstral coefficients 
 
 ---
 
+<!-- Extra tools -->
 ### Extra tools
 
 Regarding this field of study, an extra tool has been provided in this package that is shiped as the an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the `cepsclustering` function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be refered as an implementation of the aformentioned study, in Julia.
 
+<!-- PAM Clustering -->
 #### PAM Clustering
 
 In this regard, one can use the `cepsclustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
@@ -138,6 +171,7 @@ clusters = cepsclustering(cepscoefs, k)
 
 The result indicates that the 1st, 3rd, 5th, 7th, and 9th time series are in the first cluster and the rest are in the second cluster. In other words, the first cluster contains "MSFT", "GOOG", "META", "NVDA", and "CSCO" and the second cluster contains "AAPL", "AMZN", "FB", "TSLA", and "INTC". Note that, the result may vary each time due to the random nature of the PAM algorithm.
 
+<!-- Plotting -->
 ##### Plotting
 
 In order to probe the results, it is better to visualize it. In this subsection, the time series are plotted in two different color tones each of which represents a cluster.
@@ -164,18 +198,3 @@ plot(
 ![img](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/assets/StockPrices.png)
 
 The results are not satisfactory, which is expected since the PAM clustering is inaccurate due to its random initialization. The random initialization may result in a nonoptimal solution. As seen in the figure above, the 'ABDE' and 'NVDA' series follow similar patterns but are in different clusters; this is surprising because the opposite was expected.
-
-## Reference
-
-```bibtex
-@INPROCEEDINGS{989529,
-  author={Kalpakis, K. and Gada, D. and Puttagunta, V.},
-  booktitle={Proceedings 2001 IEEE International Conference on Data Mining}, 
-  title={Distance measures for effective clustering of ARIMA time-series}, 
-  year={2001},
-  volume={},
-  number={},
-  pages={273-280},
-  doi={10.1109/ICDM.2001.989529}
-}
-```
