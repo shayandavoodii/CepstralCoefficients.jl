@@ -4,8 +4,8 @@ using CepstralCoefficients
 using Clustering
 using Distances
 
-function CepstralCoefficients.cepsclustering(cc::AbstractMatrix, k::Integer)
-  dists   = pairwise(Euclidean(), cc, dims=1)
+function CepstralCoefficients.cepsclustering(ccmat::AbstractMatrix, k::Integer)
+  dists   = pairwise(Euclidean(), ccmat, dims=1)
   kopt    = kclusopt(dists, k)
   fitted  = kmedoids(dists, kopt)
   indices = assignments(fitted)
