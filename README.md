@@ -153,12 +153,12 @@ The result is a `n×m` matrix, where `n` is the number of cepstral coefficients 
 <!-- Extra tools -->
 ### Extra tools
 
-Regarding this field of study, an extra tool has been provided in this package that is shiped as an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the `cepsclustering` function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be refered as an implementation of the aformentioned study, in Julia.
+Regarding this field of study, an extra tool has been provided in this package that is shiped as an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the [`cepsclustering`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/clustering.jl#L1-L21) function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be refered as an implementation of the aformentioned study, in Julia.
 
 <!-- PAM Clustering -->
 #### PAM Clustering
 
-In this regard, one can use the `cepsclustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
+In this regard, one can use the [`cepsclustering`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/clustering.jl#L1-L21) function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
 
 ```julia
 using Clustering
