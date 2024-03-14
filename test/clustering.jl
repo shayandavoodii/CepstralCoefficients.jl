@@ -8,4 +8,8 @@ vals = [
 
 @testset "clustering.jl" begin
   cepsclustering(vals, 3)
+
+  @testset "With invalid arguments" begin
+    @test_throws ArgumentError cepsclustering(vals, 4)
+  end
 end
