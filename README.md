@@ -81,18 +81,13 @@ To use the implementation, one should pursue the following steps:
     using CepstralCoefficients
     ```
 
-Afterward, one should use the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/CepstralClustering.jl#L18-L44) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series. The following methods for calculating the coefficients are available so far:
+Afterward, one should use the [`cc`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/CepstralCoefficients.jl#L15-L96) function as the primary function of the implementation. The function above calculates the first `n` number of cepstral coefficients according to the given time series.
 
-- Auto-Regressive Cepstral Coefficients
-- Real Cepstral Coefficients
-
-The former method can be employed by passing the `ARCepstral` type as the first argument to the `cc` function, and the latter can be utilized by passing the `RealCepstral` type instead.
-
-## Example
+### Example
 
 A sequence of time series is required to test the implementation. In this case, the following assets are used: `["MSFT", "AAPL", "GOOG", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "ADBE"]`. In this example, the first 5 cepstral coefficients are calculated. The lag of the $AR$ process is set to be `3`.
 
-### Fetch data
+#### Fetch data
 
 ```julia
 using YFinance
@@ -101,9 +96,11 @@ querry = [get_prices(ticker, startdt="2019-01-01", enddt="2020-01-01")["adjclose
 prices = stack(querry, dims=1);
 ```
 
-Afterward, the [`cc`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/b586666d6764ac4e742cc07549c0247be30baa1b/src/CepstralClustering.jl#L15-L96) function is employed to calculate the cepstral coefficients.
+Afterward, the [`cc`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/CepstralCoefficients.jl#L15-L96) function is employed to calculate the cepstral coefficients.
 
-### Calculate cepstral coefficients
+#### Calculate cepstral coefficients
+
+The calculation method ([`ARMACepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L9-L12) or [`ARCepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L3-L5) or [`RealCepstral`](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/src/cepstral.jl#L7)) should be passed as the first argument to the `cc` function, the time series should be passed as the second argument in order to calculate the cepstral coefficients of the passed time series, and the number of coefficients should be specificed as the third argument. For example, the following code calculates the first 5 cepstral coefficients of the given time series `prices` using the `ARCepstral(3)` method:
 
 ```julia
 n=5
@@ -120,9 +117,15 @@ cepscoefs = cc(model, prices, n)
 
 The result is a `n×m` matrix, where `n` is the number of cepstral coefficients and `m` is the number of time series. The next step is to perform clustering on the calculated cepstral coefficients.
 
-### Clustering
+---
 
-In this regard, one can use the `clustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
+### Extra tools
+
+Regarding this field of study, an extra tool has been provided in this package that is shiped as the an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the `cepsclustering` function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be refered as an implementation of the aformentioned study, in Julia.
+
+#### PAM Clustering
+
+In this regard, one can use the `cepsclustering` function to perform Partition Around Medoids (PAM) clustering on the calculated cepstral coefficients. The function takes the cepstral coefficients as the first argument and the maximum number of clusters to be examined (in order to find the optimal number of clusters) as the second argument.
 
 ```julia
 using Clustering
@@ -135,7 +138,7 @@ clusters = cepsclustering(cepscoefs, k)
 
 The result indicates that the 1st, 3rd, 5th, 7th, and 9th time series are in the first cluster and the rest are in the second cluster. In other words, the first cluster contains "MSFT", "GOOG", "META", "NVDA", and "CSCO" and the second cluster contains "AAPL", "AMZN", "FB", "TSLA", and "INTC". Note that, the result may vary each time due to the random nature of the PAM algorithm.
 
-### Plotting
+##### Plotting
 
 In order to probe the results, it is better to visualize it. In this subsection, the time series are plotted in two different color tones each of which represents a cluster.
 
@@ -158,7 +161,7 @@ plot(
 )
 ```
 
-![img](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/assets/StockPrices.png)
+![img](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/assets/StockPrices.png)
 
 The results are not satisfactory, which is expected since the PAM clustering is inaccurate due to its random initialization. The random initialization may result in a nonoptimal solution. As seen in the figure above, the 'ABDE' and 'NVDA' series follow similar patterns but are in different clusters; this is surprising because the opposite was expected.
 
