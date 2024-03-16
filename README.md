@@ -74,7 +74,7 @@ for $k = 0,1,2,...$ and are referred to as the cepstral coefficients. Due to the
 
 - **Cepstral coefficients based on AR coefficients**
 
-Consider a time–series $X_t$ defined by an $AR(p)$ model $X_t+\alpha_1X_{t-1}+\dots+\alpha_pX_{t-p}=\epsilon_t$ where $\alpha_1+\dots+\alpha_p$ are the auto-regression coefficients and $\epsilon_t$ is white noise with mean $0$ and certain non-zero variance. Note that for every ARIMA model there exists an equivalent AR model, that can be obtained from the ARIMA model by polynomial division. Hence, without loss of generality, for the remainder of this paper we focus on AR time–series.  
+Consider a time–series $X_t$ defined by an $AR(p)$ model $X_t+\alpha_1X_{t-1}+\dots+\alpha_pX_{t-p}=\epsilon_t$ where $\alpha_1+\dots+\alpha_p$ are the auto-regression coefficients and $\epsilon_t$ is white noise with mean $0$ and certain non-zero variance. Note that for every ARIMA model, there exists an equivalent AR model, that can be obtained from the ARIMA model by polynomial division.    
 The cepstral coefficients for an $AR(p)$ time–series can be derived from the auto-regression coefficients [[2](https://doi.org/10.1109/ICDM.2001.989529)]:
 
 ```math
@@ -153,7 +153,7 @@ The result is a `n×m` matrix, where `n` is the number of cepstral coefficients 
 <!-- Extra tools -->
 ### Extra tools
 
-Regarding this field of study, an extra tool has been provided in this package that is shiped as an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the [`cepsclustering`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/clustering.jl#L1-L21) function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be refered as an implementation of the aformentioned study, in Julia.
+Regarding this field of study, an extra tool has been provided in this package that is shiped as an extension. Kalpakis et al. (2001) have used cepstral coefficients in field of time series analysis. They have used Partitioning Around Medoids (PAM) clustering method (AKA K-Medoids) to find similar time series regarding their cepstral coefficient values. The result of `cc` function should be passed to the [`cepsclustering`](https://github.com/shayandavoodii/TimeSeries-Cepstral-Clustering/blob/main/src/clustering.jl#L1-L21) function in order to perform PAM method on the cepstral coefficient in order to perform clustering. Hence, this extension can be referred to as an implementation of the aforementioned study, in Julia.
 
 <!-- PAM Clustering -->
 #### PAM Clustering
@@ -197,4 +197,4 @@ plot(
 
 ![img](https://github.com/shayandavoodii/CepstralCoefficients.jl/blob/main/assets/StockPrices.png)
 
-The results are not satisfactory, which is expected since the PAM clustering is inaccurate due to its random initialization. The random initialization may result in a nonoptimal solution. As seen in the figure above, the 'ABDE' and 'NVDA' series follow similar patterns but are in different clusters; this is surprising because the opposite was expected.
+The results are not satisfactory, which is expected since the PAM clustering is inaccurate due to its random initialization. The random initialization may result in a nonoptimal solution. As seen in the figure above, the 'ABDE' and 'NVDA' series follow similar patterns but are in different clusters; this is surprising because the opposite was expected. Furthermore, the result of PAM clustering is not deterministic. Thus, the output may differ in each run, which is another drawback.
