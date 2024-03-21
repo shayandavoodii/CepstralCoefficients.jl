@@ -13,7 +13,6 @@ end
 
 function cepscoef(method::ARCepstral, tseries::AbstractVector, n::Integer)
   α = fit_arima(tseries, method.p)
-  method.p == length(α) || ArgumentError("Length of coefficients must be equal to p") |> throw
   c = similar(α, n)
   for n_ ∈ 1:n
     if n_==1
@@ -83,7 +82,6 @@ function ψfunc(
   q::T,
   k::T
 ) where {S<:AbstractFloat, T<:Integer}
-  p+q == length(coefs) || ArgumentError("Length of coefficients must be equal to p + q") |> throw
   a            = σ²/2π
   numerator_   = 0.
   denominator_ = 0.
