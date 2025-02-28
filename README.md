@@ -177,6 +177,8 @@ The result indicates that the 1st, 3rd, 5th, 7th, and 9th time series are in the
 In order to probe the results, it is better to visualize it. In this subsection, the time series are plotted in two different color tones each of which represents a cluster.
 
 ```julia
+using Plots
+
 colortones = ["#E46262" "#2C8EF6" "#CD6969" "#408BDA" "#B57070" "#5387BF" "#9E7777" "#6784A3" "#877E7E" "#7A8188"]
 linestyle = [:solid :dash :solid :dash :solid :dash :solid :dash :solid :dash]
 plot(
