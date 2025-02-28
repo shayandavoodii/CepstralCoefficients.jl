@@ -213,7 +213,7 @@ function _fs(umat::AbstractMatrix, S::AbstractVector, γ::Integer)
   numer   = 0.
   denumer = 0.
   for i ∈ 1:I
-    uᵢ, uⱼ   = sort(umat[i, :], rev=true)[1:2]
+    uᵢ, uⱼ   = first(sort(umat[i, :], rev=true), 2)
     val      = (uᵢ-uⱼ)^γ
     numer   += val * S[i]
     denumer += val
